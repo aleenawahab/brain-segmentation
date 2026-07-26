@@ -40,14 +40,14 @@ class BrainSegmentationDataset(Dataset):
             ):
                 filepath = os.path.join(dirpath, filename)
                 if "mask" in filename:
-                    mask_slices.append(imread(filepath, as_gray=True))
+                    mask_slices.append(imread(filepath, as_gray=True) / 255.0)
                 else:
                     image_slices.append(imread(filepath))
             if len(image_slices) > 0:
                 patient_id = dirpath.split("/")[-1]
                 volumes[patient_id] = np.array(image_slices[1:-1])
                 masks[patient_id] = np.array(mask_slices[1:-1])
-
+                
         self.patients = sorted(volumes)
 
         # select cases to subset
